@@ -1,0 +1,21 @@
+appointment_id,lead_time_days,age,appt_hour,prev_no_shows,hist_no_show_rate,specialty,clinic_name,day_of_week,insurance_type
+A000001,8,69,14,2,0.363,General Practice,Family Clinic,Fri,Private
+A000002,18,8,13,5,0.269,Dermatology,Ortho Center,Fri,Public
+A000003,46,11,16,2,0.382,Orthopedics,Family Clinic,Sat,HMO
+A000004,70,57,12,4,0.32,Orthopedics,Ortho Center,Fri,Self-pay
+A000005,8,49,16,0,0.382,Ophthalmology,Eye Center,Mon,HMO
+A000006,14,68,15,2,0.433,Orthopedics,Family Clinic,Thu,HMO
+A000007,61,70,15,1,0.33,General Practice,Family Clinic,Fri,Public
+A000008,49,13,15,4,0.571,Pediatrics,Eye Center,Fri,Public
+A000009,36,29,17,2,0.342,Cardiology,Cardiology Clinic,Sat,Public
+A000010,41,11,14,2,0.126,Cardiology,Cardiology Clinic,Sat,Private
+A000011,84,39,9,4,0.074,Neurology,Neuro Unit,Wed,Public
+A000012,69,74,12,4,0.268,General Practice,Family Clinic,Thu,Private
+A000013,21,61,14,0,0.352,Gastroenterology,Gastro Center,Wed,Private
+A000014,71,70,15,3,0.031,Dermatology,Ortho Center,Sat,HMO
+A000015,50,41,13,3,0.209,Ophthalmology,Eye Center,Tue,Public
+A000016,39,60,14,2,0.0,Dermatology,Oncology Clinic,Tue,Self-pay
+A000017,51,57,13,3,0.357,General Practice,Family Clinic,Mon,HMO
+A000018,54,2,11,2,0.379,ENT,ENT Clinic,Sat,Public
+A000019,89,76,8,1,0.112,Pediatrics,Peds Clinic,Thu,HMO
+A000020,82,26,12,3,0.186,Orthopedics,Family Clinic,Sat,HMO

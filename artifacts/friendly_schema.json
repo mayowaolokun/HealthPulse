@@ -1,0 +1,26 @@
+{
+  "friendly_num_features": [
+    "lead_time_days",
+    "age",
+    "appt_hour",
+    "prev_no_shows",
+    "hist_no_show_rate"
+  ],
+  "friendly_cat_features": [
+    "specialty",
+    "clinic_name",
+    "day_of_week",
+    "insurance_type"
+  ],
+  "friendly_all_features": [
+    "lead_time_days",
+    "age",
+    "appt_hour",
+    "prev_no_shows",
+    "hist_no_show_rate",
+    "specialty",
+    "clinic_name",
+    "day_of_week",
+    "insurance_type"
+  ]
+}

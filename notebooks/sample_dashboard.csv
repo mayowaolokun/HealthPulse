@@ -1,0 +1,3 @@
+appointment_id,lead_time_days,age,appt_hour,prev_no_shows,hist_no_show_rate,specialty,clinic_name,day_of_week,insurance_type
+A000001,10,30,10,1,0.2,Cardiology,Cardiology Clinic,Mon,Public
+A000002,30,55,16,3,0.35,Oncology,Oncology Clinic,Thu,Private

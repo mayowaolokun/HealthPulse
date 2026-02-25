@@ -1,0 +1,73 @@
+feature,mean_abs_shap
+lead_time_days,0.45152249600934397
+age,0.05528207353406722
+provider_clinic_assignment_Full-time,0.045760672717882686
+insurance_type_Private,0.04458359342408309
+insurance_type_Public,0.03957993147539325
+prev_no_shows,0.03629859921776785
+clinic_staffing_type_Full-time,0.029006950760778735
+provider_clinic_assignment_Part-time,0.027304831029215746
+city_Chicago,0.024414234834428703
+prev_appointments,0.023749016247436933
+city_New York,0.01987777486522879
+city_Atlanta,0.01814806553285951
+day_of_week_Mon,0.01697511470101552
+clinic_staffing_type_Part-time,0.016920044594514693
+city_Houston,0.01669626150794953
+insurance_type_Self-pay,0.015248165490609946
+provider_clinic_assignment_Rotating,0.012952617580111559
+appt_hour,0.012300763374270156
+last_no_show,0.011486738478306655
+day_of_week_Sat,0.010437811259991272
+day_of_week_Tue,0.009095039020563682
+day_of_week_Sun,0.00826135384453351
+day_of_week_Fri,0.008212385629085484
+month_name_Feb,0.007628031450059046
+clinic_name_Dermatology Clinic,0.0065545723433748145
+specialty_Dermatology,0.0065545723433748145
+month_name_Jan,0.006076200301744382
+clinic_name_Oncology Clinic,0.005907041213591699
+specialty_Oncology,0.005907041213591699
+specialty_Pulmonology,0.005789334843609723
+clinic_name_Pulmonology Clinic,0.005789334843609723
+month_name_May,0.005655773781412702
+specialty_Dentistry,0.004965642677298212
+clinic_name_Dental Clinic,0.004965642677298212
+day_of_week_Wed,0.004801967720699365
+specialty_Cardiology,0.004623152787690154
+city_Los Angeles,0.004623152787690154
+clinic_name_Cardiology Clinic,0.004623152787690154
+month_name_Aug,0.0043189025483464285
+month_name_Mar,0.004271257104112083
+month_name_Jun,0.004203151699166243
+month_name_Nov,0.0038814088030325517
+day_of_week_Thu,0.0037895715420229537
+is_first_appointment,0.0037239101479822467
+month_name_Apr,0.003213545200923568
+month_name_Dec,0.0030171220635068145
+has_prev_no_show,0.002880365116651941
+specialty_Otolaryngology,0.0025649456662446514
+clinic_name_ENT Clinic,0.0025649456662446514
+clinic_name_Psychiatry Clinic,0.0014379760298457312
+specialty_Psychiatry,0.0014379760298457312
+specialty_Orthopedics,0.0013983786859391417
+clinic_name_Orthopedic Clinic,0.0013983786859391417
+clinic_name_Primary Care Clinic,0.001387650442937165
+specialty_Family Medicine,0.001387650442937165
+month_name_Oct,0.0013269702234697351
+clinic_name_Urology Clinic,0.0012379993720969562
+specialty_Urology,0.0012379993720969562
+appt_minute,0.0012118648954425216
+hist_no_show_rate,0.0008084821455965756
+specialty_Obstetrics & Gynecology,0.0007458477799474691
+clinic_name_Women's Health Clinic,0.0007458477799474691
+specialty_Endocrinology,0.0007092409374562447
+clinic_name_Endocrinology Clinic,0.0007092409374562447
+clinic_name_Ophthalmology Clinic,0.0006474998552812367
+specialty_Ophthalmology,0.0006474998552812367
+month_name_Jul,0.0006157862447117085
+clinic_name_Neurology Clinic,0.0004310317210785998
+specialty_Neurology,0.0004310317210785998
+specialty_Gastroenterology,0.00016076194656856739
+clinic_name_Gastroenterology Clinic,0.00016076194656856739
+month_name_Sep,5.910604838817344e-05
