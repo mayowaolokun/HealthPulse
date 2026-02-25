@@ -398,7 +398,7 @@ If you’re presenting this, the story is: “We can predict no-shows ahead of t
 with tab_dash:
     st.subheader("Interactive Dashboard")
 
-    api_url = st.text_input("FastAPI URL", value="http://127.0.0.1:8000", key="api_url_main")
+    api_url = st.text_input("FastAPI URL", value="https://healthpulse-api.onrender.com")
     uploaded = st.file_uploader("Upload CSV for dashboard exploration", type=["csv"], key="dash_upload")
 
     if uploaded is None:
