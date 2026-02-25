@@ -151,6 +151,7 @@ def categorical_percent_bar(df: pd.DataFrame, col: str, top_n: int = 15):
     fig.update_traces(
         marker_color=PRIMARY_BAR_COLOR,
         text=[f"{v:.2f}%" for v in tab["percent"].astype(float).tolist()],
+        texttemplate="%{text}",  # ✅ CHANGE: force Plotly to render provided text literally
         textposition="outside",
         cliponaxis=False,
     )
@@ -609,7 +610,7 @@ with tab_dash:
 with tab_predict:
     st.subheader("Prediction (Single + Batch)")
     DEFAULT_API = os.getenv("HEALTHPULSE_API_URL", "http://127.0.0.1:8000")
-    api_url = st.text_input("FastAPI URL", value=DEFAULT_API, key="api_url_main")
+    api_url = st.text_input("FastAPI URL", value=DEFAULT_API, key="api_url_pred")  # ✅ CHANGE: unique key
 
     st.markdown("## Single Prediction")
     with st.form("single_form"):
