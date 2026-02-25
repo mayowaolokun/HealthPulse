@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
+import os
 import numpy as np
 import pandas as pd
 import plotly.express as px
@@ -398,7 +399,8 @@ If you’re presenting this, the story is: “We can predict no-shows ahead of t
 with tab_dash:
     st.subheader("Interactive Dashboard")
 
-    api_url = st.text_input("FastAPI URL", value="https://healthpulse-api.onrender.com")
+    DEFAULT_API = os.getenv("HEALTHPULSE_API_URL", "http://127.0.0.1:8000")
+    api_url = st.text_input("FastAPI URL", value=DEFAULT_API, key="api_url_main")
     uploaded = st.file_uploader("Upload CSV for dashboard exploration", type=["csv"], key="dash_upload")
 
     if uploaded is None:
@@ -606,7 +608,8 @@ with tab_dash:
 # =========================================================
 with tab_predict:
     st.subheader("Prediction (Single + Batch)")
-    api_url = st.text_input("FastAPI URL", value="http://127.0.0.1:8000", key="api_url_pred")
+    DEFAULT_API = os.getenv("HEALTHPULSE_API_URL", "http://127.0.0.1:8000")
+    api_url = st.text_input("FastAPI URL", value=DEFAULT_API, key="api_url_main")
 
     st.markdown("## Single Prediction")
     with st.form("single_form"):
