@@ -1,47 +1,26 @@
 {
-  "model_type": "logreg_balanced",
-  "target": "is_no_show",
-  "chosen_threshold": 0.45,
-  "num_features": [
-    "age",
-    "lead_time_days",
-    "appt_hour",
-    "appt_minute",
-    "prev_appointments",
-    "prev_no_shows",
-    "hist_no_show_rate",
-    "is_first_appointment",
-    "has_prev_no_show",
-    "last_no_show"
-  ],
-  "cat_features": [
-    "insurance_type",
-    "specialty",
-    "clinic_name",
-    "city",
-    "day_of_week",
-    "month_name",
-    "provider_clinic_assignment",
-    "clinic_staffing_type"
-  ],
-  "all_features": [
-    "age",
-    "lead_time_days",
-    "appt_hour",
-    "appt_minute",
-    "prev_appointments",
-    "prev_no_shows",
-    "hist_no_show_rate",
-    "is_first_appointment",
-    "has_prev_no_show",
-    "last_no_show",
-    "insurance_type",
-    "specialty",
-    "clinic_name",
-    "city",
-    "day_of_week",
-    "month_name",
-    "provider_clinic_assignment",
-    "clinic_staffing_type"
-  ]
+    "target": "is_no_show",
+    "num_features": [
+        "age",
+        "lead_time_days",
+        "appt_hour",
+        "appt_minute",
+        "prev_appointments",
+        "prev_no_shows",
+        "hist_no_show_rate",
+        "is_first_appointment",
+        "has_prev_no_show",
+        "last_no_show"
+    ],
+    "cat_features": [
+        "insurance_type",
+        "specialty",
+        "clinic_name",
+        "city",
+        "day_of_week",
+        "month_name",
+        "provider_clinic_assignment",
+        "clinic_staffing_type"
+    ],
+    "chosen_threshold": 0.45
 }

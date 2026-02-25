@@ -154,3 +154,17 @@ def predict(req: PredictRequest):
             status_code=500,
             detail=f"Prediction failed: {type(e).__name__}: {str(e)}",
         )
+    
+
+@app.get("/version")
+def version():
+    import sys, sklearn, pandas, numpy, joblib
+    return {
+        "python": sys.version,
+        "sklearn": sklearn.__version__,
+        "pandas": pandas.__version__,
+        "numpy": numpy.__version__,
+        "joblib": joblib.__version__,
+    }
+
+    
