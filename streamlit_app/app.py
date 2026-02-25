@@ -3,6 +3,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 import os
+import warnings
 import numpy as np
 import pandas as pd
 import plotly.express as px
@@ -84,13 +85,38 @@ def load_csv(path: Path) -> pd.DataFrame:
 
 @st.cache_resource
 def load_local_model_pipeline():
-    """Optional local pipeline to compute segment drivers.
-    If missing, segment drivers will be disabled gracefully."""
+    """
+    Optional local pipeline to compute segment drivers.
+    If missing or sklearn version mismatch, segment drivers will be disabled gracefully.
+    """
     import joblib
+    try:
+        import sklearn
+        from sklearn.exceptions import InconsistentVersionWarning
+    except Exception:
+        sklearn = None
+        InconsistentVersionWarning = None
+
     model_path = ARTIFACT_DIR / "model_pipeline.joblib"
-    if model_path.exists():
-        return joblib.load(model_path)
-    return None
+    if not model_path.exists():
+        return None
+
+    # Suppress noisy unpickle warnings in cloud, then disable if mismatch is detected
+    try:
+        with warnings.catch_warnings():
+            if InconsistentVersionWarning is not None:
+                warnings.simplefilter("ignore", InconsistentVersionWarning)
+            pipe = joblib.load(model_path)
+
+        # Best-effort mismatch detection (estimators often store this)
+        if sklearn is not None:
+            pickled_ver = getattr(pipe, "_sklearn_version", None)
+            if pickled_ver and pickled_ver != sklearn.__version__:
+                return None
+
+        return pipe
+    except Exception:
+        return None
 
 
 # -----------------------------
@@ -130,7 +156,7 @@ def percent_histogram(df: pd.DataFrame, col: str, bins: int = 20):
 def categorical_percent_bar(df: pd.DataFrame, col: str, top_n: int = 15):
     """
     FIXED:
-    - percent labels are now real strings like '12.50%' (no %{y:.2f}% literal)
+    - percent labels are now real strings like '12.50%'
     - better x-axis labeling + ordering
     - consistent colors
     """
@@ -151,7 +177,6 @@ def categorical_percent_bar(df: pd.DataFrame, col: str, top_n: int = 15):
     fig.update_traces(
         marker_color=PRIMARY_BAR_COLOR,
         text=[f"{v:.2f}%" for v in tab["percent"].astype(float).tolist()],
-        texttemplate="%{text}",  # ✅ CHANGE: force Plotly to render provided text literally
         textposition="outside",
         cliponaxis=False,
     )
@@ -174,9 +199,23 @@ def categorical_percent_bar(df: pd.DataFrame, col: str, top_n: int = 15):
     return fig
 
 def call_predict_api(api_url: str, records: List[Dict[str, Any]], timeout: int = 60) -> Dict[str, Any]:
-    r = requests.post(f"{api_url.rstrip('/')}/predict", json={"records": records}, timeout=timeout)
-    r.raise_for_status()
-    return r.json()
+    """
+    Improved error reporting:
+    - surfaces API response body on 4xx/5xx to help debug Render/Cloud issues.
+    """
+    url = f"{api_url.rstrip('/')}/predict"
+    try:
+        r = requests.post(url, json={"records": records}, timeout=timeout)
+        if not r.ok:
+            detail = ""
+            try:
+                detail = r.text[:2000]
+            except Exception:
+                detail = ""
+            raise requests.HTTPError(f"{r.status_code} {r.reason} for url: {url}\nResponse: {detail}", response=r)
+        return r.json()
+    except requests.RequestException as e:
+        raise e
 
 def attach_predictions(df: pd.DataFrame, api_result: Dict[str, Any]) -> pd.DataFrame:
     preds = api_result.get("predictions", [])
@@ -401,8 +440,25 @@ with tab_dash:
     st.subheader("Interactive Dashboard")
 
     DEFAULT_API = os.getenv("HEALTHPULSE_API_URL", "http://127.0.0.1:8000")
-    api_url = st.text_input("FastAPI URL", value=DEFAULT_API, key="api_url_main")
+    # ✅ CHANGED: unique widget key to avoid DuplicateWidgetID
+    api_url = st.text_input("FastAPI URL", value=DEFAULT_API, key="api_url_dash")
     uploaded = st.file_uploader("Upload CSV for dashboard exploration", type=["csv"], key="dash_upload")
+
+    # ✅ ADDED: quick health check (helps debug Render “Not Found” vs API working)
+    hc1, hc2 = st.columns([1, 3])
+    with hc1:
+        if st.button("Test API /health", key="btn_health_dash"):
+            try:
+                hr = requests.get(f"{api_url.rstrip('/')}/health", timeout=20)
+                st.success(f"/health → {hr.status_code}")
+                try:
+                    st.json(hr.json())
+                except Exception:
+                    st.code(hr.text[:2000])
+            except Exception as e:
+                st.error(f"Health check failed: {e}")
+    with hc2:
+        st.caption("Tip: Render root URL may show Not Found — that’s OK. What matters is that `/health` returns 200 and `/predict` works.")
 
     if uploaded is None:
         st.info("Upload a CSV containing the friendly features to unlock the full dashboard.")
@@ -568,7 +624,7 @@ with tab_dash:
         st.markdown("<div class='small-muted'>Computed locally (if model_pipeline.joblib exists). This will never crash the app.</div>", unsafe_allow_html=True)
 
         if pipeline_local is None:
-            st.warning("Segment drivers disabled: artifacts/model_pipeline.joblib not found.")
+            st.warning("Segment drivers disabled: pipeline missing OR sklearn version mismatch with the saved pipeline.")
         else:
             try:
                 seg = compute_segment_drivers_local(
@@ -610,7 +666,20 @@ with tab_dash:
 with tab_predict:
     st.subheader("Prediction (Single + Batch)")
     DEFAULT_API = os.getenv("HEALTHPULSE_API_URL", "http://127.0.0.1:8000")
-    api_url = st.text_input("FastAPI URL", value=DEFAULT_API, key="api_url_pred")  # ✅ CHANGE: unique key
+    # ✅ CHANGED: unique widget key to avoid DuplicateWidgetID
+    api_url = st.text_input("FastAPI URL", value=DEFAULT_API, key="api_url_pred")
+
+    # ✅ ADDED: quick health check
+    if st.button("Test API /health", key="btn_health_pred"):
+        try:
+            hr = requests.get(f"{api_url.rstrip('/')}/health", timeout=20)
+            st.success(f"/health → {hr.status_code}")
+            try:
+                st.json(hr.json())
+            except Exception:
+                st.code(hr.text[:2000])
+        except Exception as e:
+            st.error(f"Health check failed: {e}")
 
     st.markdown("## Single Prediction")
     with st.form("single_form"):
